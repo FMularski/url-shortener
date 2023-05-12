@@ -1,11 +1,25 @@
 version: '3.9'
 
 services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   web:
     build:
       context: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: gunicorn url_shortener.wsgi:application --bind 0.0.0.0:8000 --reload
     ports:
       - 8000:8000
     volumes:
       - .:/code
+    depends_on:
+      db:
+        condition: service_healthy
