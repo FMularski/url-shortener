@@ -14,9 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+description = """
+Project created as a recruitment task. API for shortening URLs.
+
+Created by mularskif@gmail.com
+"""
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Shorten URLs API",
+        default_version="v1",
+        description=description,
+        contact=openapi.Contact(email="mularskif@gmail.com"),
+    ),
+    public=True,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("", schema_view.with_ui("swagger"), name="schema-swagger-ui"),
 ]
