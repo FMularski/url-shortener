@@ -14,7 +14,7 @@ class ShortenLinkAPIView(generics.CreateAPIView):
 
     Input example:
     * long_url: https://google.com
-    * length: 4 (default = 5)
+    * length: 4 (default = 5, minimum = 3)
     """
 
     @swagger_auto_schema(

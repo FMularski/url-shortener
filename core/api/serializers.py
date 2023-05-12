@@ -19,8 +19,8 @@ class ShortenLinkSerializer(serializers.Serializer):
     length = serializers.IntegerField(required=False)
 
     def validate(self, attrs):
-        if attrs.get("length", settings.SHORT_URL_DEFAULT_LENGTH) < 1:
-            raise serializers.ValidationError("Lenght must be a positive number.")
+        if attrs.get("length", settings.SHORT_URL_DEFAULT_LENGTH) < 3:
+            raise serializers.ValidationError("Lenght must be at least 3.")
         return super().validate(attrs)
 
     def create(self, validated_data):
