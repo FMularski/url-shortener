@@ -137,3 +137,6 @@ STATIC_ROOT = BASE_DIR / "static"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SWAGGER_SETTINGS = {"SECURITY_DEFINITIONS": None}
+
+SHORT_URL_BASE_URL = env.str("SHORT_URL_BASE_URL", "http://localhost/core/")
+SHORT_URL_DEFAULT_LENGTH = env.int("SHORT_URL_DEFAULT_LENGTH", 5)

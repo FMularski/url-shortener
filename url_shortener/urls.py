@@ -14,7 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
@@ -36,4 +36,5 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("", schema_view.with_ui("swagger"), name="schema-swagger-ui"),
+    path("core/", include("core.urls")),
 ]
