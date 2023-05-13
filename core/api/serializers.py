@@ -31,9 +31,11 @@ class ShortenLinkSerializer(serializers.Serializer):
         return super().validate(attrs)
 
     def create(self, validated_data):
+        hostname = self.context["request"].build_absolute_uri("/")
         long_url = validated_data.get("long_url")
         length = validated_data.get("length", settings.SHORT_URL_DEFAULT_LENGTH)
-        short_url = settings.SHORT_URL_BASE_URL + "".join(
+
+        short_url = hostname + "".join(
             random.choices(string.ascii_lowercase + string.digits, k=length)
         )
 
