@@ -7,7 +7,7 @@
 * Django 4.2
 * Django Rest Framework 3.14.0
 * drf-yasg 1.21.5
-* Postrges
+* Postgres
 * Nginx
 * Docker
 
