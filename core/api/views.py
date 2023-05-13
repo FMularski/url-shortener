@@ -5,7 +5,6 @@ from rest_framework import generics, response, status
 from core.models import Link
 
 from .serializers import (
-    ExtendLinkSerializer,
     LinkLongUrlSerializer,
     LinkSerializer,
     LinkShortUrlSerializer,
@@ -49,10 +48,10 @@ class ExtendLinkAPIView(generics.GenericAPIView):
     @swagger_auto_schema(
         operation_description=description,
         responses={status.HTTP_200_OK: LinkLongUrlSerializer},
-        request_body=ExtendLinkSerializer,
+        request_body=LinkShortUrlSerializer,
     )
     def post(self, request):
-        serializer = ExtendLinkSerializer(data=request.data)
+        serializer = LinkShortUrlSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         link = get_object_or_404(Link, short_url=serializer.validated_data["short_url"])

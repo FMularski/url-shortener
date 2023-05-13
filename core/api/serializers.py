@@ -10,22 +10,15 @@ from core.models import Link
 class LinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
-        fields = (
-            "long_url",
-            "short_url",
-        )
+        exclude = ("id",)
 
 
-class LinkLongUrlSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Link
-        fields = ("long_url",)
+class LinkLongUrlSerializer(serializers.Serializer):
+    long_url = serializers.URLField()
 
 
-class LinkShortUrlSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Link
-        fields = ("short_url",)
+class LinkShortUrlSerializer(serializers.Serializer):
+    short_url = serializers.URLField()
 
 
 class ShortenLinkSerializer(serializers.Serializer):
@@ -49,7 +42,3 @@ class ShortenLinkSerializer(serializers.Serializer):
     def to_representation(self, instance):
         target_serializer = LinkShortUrlSerializer(instance)
         return target_serializer.data
-
-
-class ExtendLinkSerializer(serializers.Serializer):
-    short_url = serializers.URLField()
