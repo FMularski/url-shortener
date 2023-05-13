@@ -1,9 +1,16 @@
+from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import generics, status
+from rest_framework import generics, response, status
 
 from core.models import Link
 
-from .serializers import LinkSerializer, LinkShortUrlSerializer, ShortenLinkSerializer
+from .serializers import (
+    ExtendLinkSerializer,
+    LinkLongUrlSerializer,
+    LinkSerializer,
+    LinkShortUrlSerializer,
+    ShortenLinkSerializer,
+)
 
 
 class LinkListView(generics.ListAPIView):
@@ -34,3 +41,20 @@ class ShortenLinkAPIView(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+
+
+class ExtendLinkAPIView(generics.GenericAPIView):
+    description = "Extend an URL from a shortened representation."
+
+    @swagger_auto_schema(
+        operation_description=description,
+        responses={status.HTTP_200_OK: LinkLongUrlSerializer},
+        request_body=ExtendLinkSerializer,
+    )
+    def post(self, request):
+        serializer = ExtendLinkSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        link = get_object_or_404(Link, short_url=serializer.validated_data["short_url"])
+        serializer = LinkLongUrlSerializer(link)
+        return response.Response(serializer.data, status=status.HTTP_200_OK)

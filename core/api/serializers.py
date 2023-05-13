@@ -16,6 +16,12 @@ class LinkSerializer(serializers.ModelSerializer):
         )
 
 
+class LinkLongUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = ("long_url",)
+
+
 class LinkShortUrlSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
@@ -43,3 +49,7 @@ class ShortenLinkSerializer(serializers.Serializer):
     def to_representation(self, instance):
         target_serializer = LinkShortUrlSerializer(instance)
         return target_serializer.data
+
+
+class ExtendLinkSerializer(serializers.Serializer):
+    short_url = serializers.URLField()
