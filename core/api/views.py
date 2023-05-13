@@ -3,7 +3,18 @@ from rest_framework import generics, status
 
 from core.models import Link
 
-from .serializers import LinkShortUrlSerializer, ShortenLinkSerializer
+from .serializers import LinkSerializer, LinkShortUrlSerializer, ShortenLinkSerializer
+
+
+class LinkListView(generics.ListAPIView):
+    serializer_class = LinkSerializer
+    queryset = Link.objects.all()
+
+    @swagger_auto_schema(
+        operation_description="Returns the list of all shortened urls.",
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ShortenLinkAPIView(generics.CreateAPIView):

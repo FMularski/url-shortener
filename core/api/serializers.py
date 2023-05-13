@@ -1,11 +1,19 @@
 import random
-import socket
 import string
 
 from django.conf import settings
 from rest_framework import serializers
 
 from core.models import Link
+
+
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = (
+            "long_url",
+            "short_url",
+        )
 
 
 class LinkShortUrlSerializer(serializers.ModelSerializer):
@@ -29,8 +37,6 @@ class ShortenLinkSerializer(serializers.Serializer):
         short_url = settings.SHORT_URL_BASE_URL + "".join(
             random.choices(string.ascii_lowercase + string.digits, k=length)
         )
-
-        print(socket.gethostname())
 
         return Link.objects.create(long_url=long_url, short_url=short_url)
 
