@@ -27,9 +27,7 @@ class ShortenLinkAPIView(generics.CreateAPIView):
     serializer_class = ShortenLinkSerializer
     queryset = Link.objects.all()
 
-    description = """Shorten an URL.
-
-    Input example:
+    description = """Shorten an URL. Body example:
     * long_url: https://google.com
     * length: 4 (default = 5, minimum = 3)
     """
@@ -43,7 +41,7 @@ class ShortenLinkAPIView(generics.CreateAPIView):
 
 
 class ExtendLinkAPIView(generics.GenericAPIView):
-    description = "Extend an URL from a shortened representation."
+    description = "Extend an URL from a shortened representation (shortening reversion)."
 
     @swagger_auto_schema(
         operation_description=description,
